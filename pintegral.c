@@ -16,7 +16,7 @@ unsigned short n_hilos;
 
 // Calcula f(x) en el punto medio de dos valores de X pasados por parámetro
 float calcula_area(float pto_medio){
-    return f(pto_medio)*(anchura_intervalo));
+    return f((pto_medio)*(anchura_intervalo));
 }
 
 
