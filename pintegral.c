@@ -1,4 +1,7 @@
 #include<stdio.h>
+#include<stdlib.h>
+#include<pthread.h>
+#include<math.h>
 
 #define f(x) (float)(4.0/(1.0 + x*x))
 
@@ -33,5 +36,25 @@ void threads(int nt, int nr){
 
 
 void main(int argc, char *argv[]){
+
+    int nt;
+    int nr;
+
+    if(argc != 3){
+        printf("Uso: pintegral <nº de rectangulos> <nº de hilos>");
+        exit(1);
+    }    
+
+    nr = (unsigned short)atoi(argv[1]);
+    nt = (unsigned short)atoi(argv[2]);
+
+    //Reparto de rectángulos entre hilos
+
+    
+
+
+
+
     printf("Integrando...\n");
+
 }
