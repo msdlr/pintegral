@@ -50,17 +50,17 @@ void threads(int nt, int nr){
     }
     // El último hilo hace la tarea de sumar
     if(nt == (n_threads-1)){
-	
+
     }
 }
 
 
 void main(int argc, char *argv[]){
 
-    int nt;
-    int nr;
+    int nt; // Número de threads
+    int nr; // Número de rectángulos
 
-    int ir;
+    int ir; // errorlevel al crear un hilo
 
 
 
@@ -69,28 +69,25 @@ void main(int argc, char *argv[]){
     if(argc != 3){
         printf("Uso: pintegral <nº de rectangulos> <nº de hilos>");
         exit(1);
-    }    
+    }
 
     nr = (unsigned short)atoi(argv[1]);
     nt = (unsigned short)atoi(argv[2]);
 
     //Reparto de rectángulos entre hilos
-    
 
-    //tread_args = 
+    tread_args =
 
-    // Crear el array de áreas que componen toda la 
+    // Crear el array de áreas que componen toda el área completa
     areas_rectangulos = malloc(nr*sizeof(float));
 
     // Si el número de rectángulos es mayor que el número de threads, toca al menos un rectángulo a cada thread
     if(nr > nt){
         // Dividimos entre el número de hilos -1, y el ultimo tiene algo menos de carga pero hará otras tareas
-        
     }
 
     //lanzamiento de threads
     if (ir = pthread_create(&mtid, NULL, threads, (void *)tread_args))
-    
 
 
     printf("Integrando...\n");
