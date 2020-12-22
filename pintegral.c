@@ -5,6 +5,12 @@
 
 #define f(x) (float)(4.0/(1.0 + x*x))
 
+struct tread_args{
+    int arg1;
+    int arg2;
+
+}
+
 /*
     VARIABLES GLOBALES
 */
@@ -54,6 +60,12 @@ void main(int argc, char *argv[]){
     int nt;
     int nr;
 
+    int ir;
+
+
+
+    pthread_t mtid;
+
     if(argc != 3){
         printf("Uso: pintegral <nº de rectangulos> <nº de hilos>");
         exit(1);
@@ -63,6 +75,9 @@ void main(int argc, char *argv[]){
     nt = (unsigned short)atoi(argv[2]);
 
     //Reparto de rectángulos entre hilos
+    
+
+    //tread_args = 
 
     // Crear el array de áreas que componen toda la 
     areas_rectangulos = malloc(nr*sizeof(float));
@@ -73,7 +88,9 @@ void main(int argc, char *argv[]){
         
     }
 
-
+    //lanzamiento de threads
+    if (ir = pthread_create(&mtid, NULL, threads, (void *)tread_args))
+    
 
 
     printf("Integrando...\n");
