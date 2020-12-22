@@ -11,7 +11,9 @@
 
 float anchura_intervalo;
 unsigned short n_rectangulos;
-unsigned short n_hilos;
+unsigned short n_threads;
+
+float *areas_rectangulos;
 
 /*
     FUNTIONES
@@ -30,8 +32,20 @@ float calcula_area(float pto_medio){
     nt : number of threads
     nr : number of rectangles
 */
+
+// Función que ejecuta cada hilo hasta morir
 void threads(int nt, int nr){
-    
+    int i = 0;
+
+    // nt-1 hilos calcularán nr/(nt-1) áreas
+    for(i=0;i<(nt/(nr-1));i++){
+    	// Para cada i, calcular rectángulo pasándole el punto medio
+        calcula_area(0.5*(1/nr)*i);
+    }
+    // El último hilo hace la tarea de sumar
+    if(nt == (n_threads-1)){
+	
+    }
 }
 
 
@@ -50,7 +64,14 @@ void main(int argc, char *argv[]){
 
     //Reparto de rectángulos entre hilos
 
-    
+    // Crear el array de áreas que componen toda la 
+    areas_rectangulos = malloc(nr*sizeof(float));
+
+    // Si el número de rectángulos es mayor que el número de threads, toca al menos un rectángulo a cada thread
+    if(nr > nt){
+        // Dividimos entre el número de hilos -1, y el ultimo tiene algo menos de carga pero hará otras tareas
+        
+    }
 
 
 
