@@ -74,6 +74,9 @@ void main(int argc, char *argv[]){
     nr = (unsigned short)atoi(argv[1]);
     nt = (unsigned short)atoi(argv[2]);
 
+    // Calcular la anchura de los rectángulos
+    anchura_intervalo = 1.0/nr;
+
     //Reparto de rectángulos entre hilos
 
     tread_args =
