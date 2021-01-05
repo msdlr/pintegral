@@ -85,30 +85,22 @@ void main(int argc, char *argv[]){
         // A los (nr%nt) primeros hilos les toca otro área para calcular
         if(i < (nr%nt)) rectangulos_por_hilo[i]++;
     } // Si el número de rectángulos es múltiplo del de hilos todos hacen las mismas áreas
-    /* Distinción entre el caso en el que el número de hilos sea múltiplo o no del de rectángulos, o viceversa */
-    if(nr%nt == 0){
-        // Si uno es múltiplo de otro, repartimos en rectángulos iguales la función.
-        // Cada hilo calcula sus rectángulos y va calculando sus áreas en el vector
-        n_areas_parciales = nr/nt;
-        areas_parciales = malloc(n_areas_parciales*sizeof(float));
-        // Dejamos todas las posiciones con valor -1, lo que significa que el área parcial aún no está calculada
-        for(int i = 0; i<n_areas_parciales; i++) areas_parciales[i] = -1;
-        // Lanzamiento de los hilos
 
-        // Hilo principal: Sumar las áreas parciales que se han terminado de calcular para conseguir la total
-        for(int i=0;i<n_areas_parciales;i++){
-            while(areas_parciales[i] == -1); // No hacer nada hasta que no esté el área parcial calculada
-            area_total += n_areas_parciales;
-        }
-    } else {
-        // Si no, calcular el número de sumas parciales
+    // Creamos el array para guardar las áreas parciales
+    n_areas_parciales = nr/nt;
+    areas_parciales = malloc(n_areas_parciales*sizeof(float));
+
+    // Dejamos todas las posiciones con valor -1, lo que significa que el área parcial aún no está calculada
+    for(int i = 0; i<n_areas_parciales; i++) areas_parciales[i] = -1;
+
+    /* Lanzamiento de los hilos */
 
 
-        areas_parciales = malloc(n_areas_parciales*sizeof(float));
-        // Dejamos todas las posiciones con valor -1, lo que significa que el área parcial aún no está calculada
-        for(int i = 0; i<n_areas_parciales; i++) areas_parciales[i] = -1;
-        // Lanzamiento de hilos
 
+    // Hilo principal: Sumar las áreas parciales que se han terminado de calcular para conseguir la total
+    for(int i=0;i<n_areas_parciales;i++){
+        while(areas_parciales[i] == -1); // No hacer nada hasta que no esté el área parcial calculada
+        area_total += n_areas_parciales;
     }
 
     //lanzamiento de threads
