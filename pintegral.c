@@ -8,7 +8,6 @@
 struct tread_args{
     int arg1;
     int arg2;
-
 };
 
 /*
@@ -27,7 +26,8 @@ float anchura_intervalo;
 */
 
 // Calcula f(x) en el punto medio de dos valores de X pasados por parámetro
-void calcula_area(float pto_medio, int id){
+void calcula_area(void *input){
+
     areas_parciales[id] = ((pto_medio)*(anchura_intervalo));
 }
 
@@ -41,22 +41,6 @@ void suma_total(){
 }
 
 
-
-
-// Función que ejecuta cada hilo hasta morir
-void threads(int nt, int nr){
-    int i = 0;
-
-    // nt-1 hilos calcularán nr/(nt-1) áreas
-    for(i=0;i<(nt/(nr-1));i++){
-    	// Para cada i, calcular rectángulo pasándole el punto medio
-        calcula_area(0.5*(1/nr)*i);
-    }
-    // El último hilo hace la tarea de sumar
-    if(nt == (n_threads-1)){
-
-    }
-}
 
 
 void main(int argc, char *argv[]){
