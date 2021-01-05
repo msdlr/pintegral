@@ -30,6 +30,12 @@ float calcula_area(float pto_medio){
     return f((pto_medio)*(anchura_intervalo));
 }
 
+int suma_total(){
+    //funcion para sumar los resultados parciales al total
+    //No tiene parametros, utiliza el vector de areas parciales y lo va sumando
+
+    return 0;
+}
 
 
 
