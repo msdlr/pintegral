@@ -27,15 +27,17 @@ float anchura_intervalo;
 */
 
 // Calcula f(x) en el punto medio de dos valores de X pasados por parámetro
-float calcula_area(float pto_medio){
-    return f((pto_medio)*(anchura_intervalo));
+void calcula_area(float pto_medio, int id){
+    areas_parciales[id] = ((pto_medio)*(anchura_intervalo));
 }
 
-int suma_total(){
+void suma_total(){
     //funcion para sumar los resultados parciales al total
     //No tiene parametros, utiliza el vector de areas parciales y lo va sumando
 
-    return 0;
+    for(int i = 0; i < (int)n_areas_parciales; i++){
+        area_total += areas_parciales[i];
+    }
 }
 
 
