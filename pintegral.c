@@ -9,7 +9,7 @@ struct tread_args{
     int arg1;
     int arg2;
 
-}
+};
 
 /*
     VARIABLES GLOBALES
@@ -33,11 +33,6 @@ float calcula_area(float pto_medio){
 
 
 
-
-/*
-    nt : number of threads
-    nr : number of rectangles
-*/
 
 // Función que ejecuta cada hilo hasta morir
 void threads(int nt, int nr){
@@ -73,9 +68,6 @@ void main(int argc, char *argv[]){
 
     nr = (unsigned short)atoi(argv[1]);
     nt = (unsigned short)atoi(argv[2]);
-
-    // Calcular la anchura de los rectángulos
-    anchura_intervalo = 1.0/nr;
 
     //Reparto de rectángulos entre hilos
 
