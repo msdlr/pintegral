@@ -17,6 +17,7 @@ struct tread_args{
 unsigned short n_rectangulos;
 unsigned short n_threads;
 unsigned short n_areas_parciales;
+short *rectangulos_por_hilo;
 float area_total = 0;
 float *areas_parciales;
 float anchura_intervalo;
@@ -75,12 +76,16 @@ void main(int argc, char *argv[]){
     nr = (unsigned short)atoi(argv[1]);
     nt = (unsigned short)atoi(argv[2]);
 
-    //Reparto de rectángulos entre hilos
-
-    //tread_args =
-
-
-    // Distinción entre el caso en el que el número de hilos sea múltiplo o no del de rectángulos, o viceversa
+    /* Reparto de rectángulos entre hilos (calcular número de rectángulos que tiene que calcular cada hilo) */
+    // Cada posición del vector tiene el número de rectángulos por hilo
+    rectangulos_por_hilo = malloc(nt*sizeof(short));
+    for(int i = 0;i < nt; i++){
+        // Calculamos el número mínimo de áreas que debe calcular cada hilo
+        rectangulos_por_hilo[i] = nr/nt;
+        // A los (nr%nt) primeros hilos les toca otro área para calcular
+        if(i < (nr%nt)) rectangulos_por_hilo[i]++;
+    } // Si el número de rectángulos es múltiplo del de hilos todos hacen las mismas áreas
+    /* Distinción entre el caso en el que el número de hilos sea múltiplo o no del de rectángulos, o viceversa */
     if(nr%nt == 0){
         // Si uno es múltiplo de otro, repartimos en rectángulos iguales la función.
         // Cada hilo calcula sus rectángulos y va calculando sus áreas en el vector
