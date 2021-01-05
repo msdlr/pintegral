@@ -14,12 +14,12 @@ struct tread_args{
 /*
     VARIABLES GLOBALES
 */
-
-float anchura_intervalo;
 unsigned short n_rectangulos;
 unsigned short n_threads;
-
-float *areas_rectangulos;
+unsigned short n_areas_parciales;
+float area_total = 0;
+float *areas_parciales;
+float anchura_intervalo;
 
 /*
     FUNTIONES
@@ -71,20 +71,39 @@ void main(int argc, char *argv[]){
 
     //Reparto de rectángulos entre hilos
 
-    tread_args =
+    //tread_args =
 
-    // Crear el array de áreas que componen toda el área completa
-    areas_rectangulos = malloc(nr*sizeof(float));
 
-    // Si el número de rectángulos es mayor que el número de threads, toca al menos un rectángulo a cada thread
-    if(nr > nt){
-        // Dividimos entre el número de hilos -1, y el ultimo tiene algo menos de carga pero hará otras tareas
+    // Distinción entre el caso en el que el número de hilos sea múltiplo o no del de rectángulos, o viceversa
+    if(nr%nt == 0){
+        // Si uno es múltiplo de otro, repartimos en rectángulos iguales la función.
+        // Cada hilo calcula sus rectángulos y va calculando sus áreas en el vector
+        n_areas_parciales = nr/nt;
+        areas_parciales = malloc(n_areas_parciales*sizeof(float));
+        // Dejamos todas las posiciones con valor -1, lo que significa que el área parcial aún no está calculada
+        for(int i = 0; i<n_areas_parciales; i++) areas_parciales[i] = -1;
+        // Lanzamiento de los hilos
+
+        // Hilo principal: Sumar las áreas parciales que se han terminado de calcular para conseguir la total
+        for(int i=0;i<n_areas_parciales;i++){
+            while(areas_parciales[i] == -1); // No hacer nada hasta que no esté el área parcial calculada
+            area_total += n_areas_parciales;
+        }
+    } else {
+        // Si no, calcular el número de sumas parciales
+
+
+        areas_parciales = malloc(n_areas_parciales*sizeof(float));
+        // Dejamos todas las posiciones con valor -1, lo que significa que el área parcial aún no está calculada
+        for(int i = 0; i<n_areas_parciales; i++) areas_parciales[i] = -1;
+        // Lanzamiento de hilos
+
     }
 
     //lanzamiento de threads
-    if (ir = pthread_create(&mtid, NULL, threads, (void *)tread_args))
+    //if (ir = pthread_create(&mtid, NULL, threads, (void *)tread_args))
 
-
-    printf("Integrando...\n");
+    printf("Pi=%f",area_total);
+    exit(EXIT_SUCCESS);
 
 }
