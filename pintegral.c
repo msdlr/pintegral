@@ -33,8 +33,9 @@ void *calcula_area(void* _id){
     for(i = 0; i < id; i++){
         inicial+=rectangulos_por_hilo[i];
     }
-    printf("Hilo %d, rectangulo inicial: %d", id, inicial+1);
-    final=inicial+rectangulos_por_hilo[id];
+    
+    final=inicial+rectangulos_por_hilo[id]-1;
+    printf("Hilo %d, rectangulo inicial: %d, rectangulo final: %d\n", id, inicial, final);
     //Calculo de los rectangulos
     for(i=inicial; i<final; i++){
         areas_parciales[id] += f(anchura_intervalo*(i+0.5));
@@ -56,13 +57,19 @@ void main(int argc, char *argv[]){
 
     nr = (unsigned short)atoi(argv[1]);
     nt = (unsigned short)atoi(argv[2]);
+
+    int *hilo_id = malloc(sizeof(int)*nt);
+
     anchura_intervalo=1.0/nr;
     printf("Anchura de intervalo: %f\n", anchura_intervalo);
 
-    /* Reparto de rectángulos entre hilos (calcular número de rectángulos que tiene que calcular cada hilo) */
+    /* Repar
+    to de rectángulos entre hilos (calcular número de rectángulos que tiene que calcular cada hilo) */
     // Cada posición del vector tiene el número de rectángulos por hilo
     rectangulos_por_hilo = malloc(nt*sizeof(short));
     for(int i = 0;i < nt; i++){
+        //inicializamos las IDS de los hilos
+        hilo_id[i]=i;
         // Calculamos el número mínimo de áreas que debe calcular cada hilo
         rectangulos_por_hilo[i] = nr/nt;
         // A los (nr%nt) primeros hilos les toca otro área para calcular
@@ -79,22 +86,23 @@ void main(int argc, char *argv[]){
     // Dejamos todas las posiciones con valor -1, lo que significa que el área parcial aún no está calculada
     for(int i = 0; i<nt; i++) areas_parciales[i] = -1;
 
-
+    
     /* Lanzamiento de los hilos */
     for(int i = 0 ; i<nt ; i++){
-        if(ir=pthread_create(&mtid[i],NULL, calcula_area, (void*) &i)){
+        if(ir=pthread_create(&mtid[i],NULL, calcula_area, (void*) &hilo_id[i])){
             fprintf(stderr, "error al crear hilo: pthread_create() %d", ir);
             exit(1);
         }
     }
-    /* Espera a los hilos */
+
+    /* Espera a los hilos 
     for(int i = 0 ; i<nt ; i++){
         if(ir=pthread_join(mtid[i],NULL)){
             fprintf(stderr, "error al esperar hilo: pthread_join() %d", ir);
             exit(1);
         }
     }
-
+*/
     // Hilo principal: Sumar las áreas parciales que se han terminado de calcular para conseguir la total
     for(int i=0;i<nt;i++){
         while(areas_parciales[i] == -1); // No hacer nada hasta que no esté el área parcial calculada
@@ -102,8 +110,6 @@ void main(int argc, char *argv[]){
     }
     area_total=area_total*anchura_intervalo;
 
-    //lanzamiento de threads
-    //if (ir = pthread_create(&mtid, NULL, threads, (void *)tread_args))
 
     printf("Pi=%f",area_total);
     exit(EXIT_SUCCESS);
