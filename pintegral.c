@@ -95,14 +95,14 @@ void main(int argc, char *argv[]){
         }
     }
 
-    /* Espera a los hilos 
+    // Espera a los hilos 
     for(int i = 0 ; i<nt ; i++){
         if(ir=pthread_join(mtid[i],NULL)){
             fprintf(stderr, "error al esperar hilo: pthread_join() %d", ir);
             exit(1);
         }
     }
-*/
+
     // Hilo principal: Sumar las áreas parciales que se han terminado de calcular para conseguir la total
     for(int i=0;i<nt;i++){
         while(areas_parciales[i] == -1); // No hacer nada hasta que no esté el área parcial calculada
