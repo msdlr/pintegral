@@ -20,7 +20,7 @@ main (int argc, char *argv[])
   /* TIEMPO EN EPOCH DE INICIO */
   inicio = get_time();
 
-   if (argc == 2)get_time(
+   if (argc == 2)
     nrect  = atoi(argv[1]);
    else 
     {
