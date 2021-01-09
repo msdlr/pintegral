@@ -19,10 +19,11 @@ double *areas_parciales;
 double anchura_intervalo;
 
 /*
-    FUNTIONES
+    FUNCIONES
 */
 
-// Calcula f(x) en el punto medio de dos valores de X pasados por parámetro
+
+//suma de areas parciales
 void *calcula_area(void *_id){
     int inicial=0;
     int final=0;
@@ -40,9 +41,10 @@ void *calcula_area(void *_id){
     #endif
     areas_parciales[id]=0.0;
     //Calculo de los rectangulos
-    for(i=inicial; i<final; i++){
+    for(i=inicial; i<=final; i++){
         areas_parciales[id] = areas_parciales[id]+f(anchura_intervalo*(i+0.5));
     }
+    
     #ifdef debug
     printf("Hilo %d, area parcial: %f\n", id, areas_parciales[id]);
     #endif
