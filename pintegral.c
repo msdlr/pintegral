@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<pthread.h>
 #include<math.h>
+#include <sys/time.h>
 
 #define f(x) (double)(4.0/(1.0 + x*x))
 //#define debug
@@ -17,11 +18,20 @@ int *rectangulos_por_hilo;
 double area_total = 0;
 double *areas_parciales;
 double anchura_intervalo;
+unsigned long inicio,fin;
 
 /*
     FUNCIONES
 */
 
+// Cálculo del instante de llamada en tiempo epoch
+unsigned long get_time() {
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        unsigned long ret = tv.tv_usec;
+        ret += (tv.tv_sec * 1000000);
+        return ret;
+}
 
 //suma de areas parciales
 void *calcula_area(void *_id){
@@ -63,6 +73,9 @@ void main(int argc, char *argv[]){
         printf("Uso: pintegral <nº de rectangulos> <nº de hilos>\n");
         exit(1);
     }
+
+    // Toma de tiempo al inicio del programa
+    inicio = get_time();
 
     nr = atoi(argv[1]);
     nt = atoi(argv[2]);
@@ -125,7 +138,10 @@ void main(int argc, char *argv[]){
 
     area_total=area_total*anchura_intervalo;
 
-    printf("π=%f\n",area_total);
+    // Toma de tiempo al final del programa
+    fin = get_time();
+
+    printf("π=%f (%lu us)\n",area_total,fin-inicio);
     exit(EXIT_SUCCESS);
 
 }
