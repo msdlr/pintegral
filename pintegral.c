@@ -4,7 +4,7 @@
 #include<math.h>
 
 #define f(x) (double)(4.0/(1.0 + x*x))
-#define debug
+//#define debug
 
 
 /*
@@ -71,8 +71,9 @@ void main(int argc, char *argv[]){
     pthread_t *mtid = malloc(sizeof(pthread_t)*(int)nt);
 
     anchura_intervalo=1.0/nr;
+    #ifdef debug
     printf("Anchura de intervalo: %f\n", anchura_intervalo);
-
+    #endif
     /* Reparto de rectángulos entre hilos (calcular número de rectángulos que tiene que calcular cada hilo) */
     // Cada posición del vector tiene el número de rectángulos por hilo
     rectangulos_por_hilo = malloc(nt*sizeof(int));
@@ -124,7 +125,7 @@ void main(int argc, char *argv[]){
 
     area_total=area_total*anchura_intervalo;
 
-    printf("Pi=%f",area_total);
+    printf("π=%f\n",area_total);
     exit(EXIT_SUCCESS);
 
 }
