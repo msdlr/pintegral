@@ -40,6 +40,8 @@ void *calcula_area(void *_id){
     unsigned long i;
     int id = *((int*)_id);
 
+
+
     //Rectangulo inicial del hilo
     for(i = 0; i < id; i++){
         inicial+=rectangulos_por_hilo[i];
@@ -141,7 +143,7 @@ void main(int argc, char *argv[]){
     // Toma de tiempo al final del programa
     fin = get_time();
 
-    printf("π=%Lf (%lu us)\n",area_total,fin-inicio);
+    printf("π=%Lf (%2.10lu us)\n",area_total,fin-inicio);
     exit(EXIT_SUCCESS);
 
 }
