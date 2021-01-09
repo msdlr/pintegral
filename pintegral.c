@@ -143,7 +143,7 @@ void main(int argc, char *argv[]){
     // Toma de tiempo al final del programa
     fin = get_time();
 
-    printf("π=%Lf (%2.10lu us)\n",area_total,fin-inicio);
+    printf("π=%2.10Lf (%lu us)\n",area_total,fin-inicio);
     exit(EXIT_SUCCESS);
 
 }
