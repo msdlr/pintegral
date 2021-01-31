@@ -4,11 +4,13 @@ import (
 	"fmt"     // Print
 	"os"      // Arguments passed to the program
 	"strconv" // Atoi
+	"time"
 )
 
 var nRect uint32 = 0
 var nRutinas uint32 = 0
 var anchRect float64 = 0
+var areaTotal float64 = 0
 
 func f(x float64) (y float64) {
 	return 4.0 / (1.0 + x*x)
@@ -22,9 +24,8 @@ func calculaArea(nRutina int, nAreas uint32, rectInicio uint32, ptr *float64) {
 		devolver = devolver + f(anchRect*(float64(i)+0.5))
 	}
 
-	*ptr = devolver
-
 	fmt.Printf("Rutina %d, %f (%d áreas[%d-%d])\n", nRutina+1, devolver, nAreas, rectInicio, rectInicio+nAreas-1)
+	*ptr = devolver
 }
 
 func main() {
@@ -33,6 +34,8 @@ func main() {
 		fmt.Println("Uso: pintegral-go <nº de rectangulos> <nº de hilos>")
 		os.Exit(1)
 	}
+
+	inicio := time.Now()
 
 	// Parsear parámetros
 	nRect, _ := strconv.Atoi(os.Args[1])
@@ -45,15 +48,15 @@ func main() {
 	// Calcular anchura del intervalo
 	anchRect = 1.0 / float64(nRect)
 	// Array de áreas parciales
-	//var areasParciales [nRect]float64
-	areasParciales := make([]float64, nRect)
+	//var areasParciales [nRutinas]float64
+	areasParciales := make([]float64, nRutinas)
 	// Array de rectángulos por cada goroutine
 	//var tareas [nRutinas]uint32
 	tareas := make([]uint32, nRutinas)
 
 	// Rellenar el array de areas parciales (si no se usa no compila)
-	for i := 0; i < nRect; i++ {
-		areasParciales[i] = float64(0)
+	for i := 0; i < nRutinas; i++ {
+		areasParciales[i] = float64(-1.0)
 	}
 
 	// Resto de dividir el número de rectángulos entre el de goroutines
@@ -77,6 +80,20 @@ func main() {
 		// El siguiente tendrá su primer rectángulo
 		rectInicio += tareas[i]
 	}
+
+	for i := 0; i < nRutinas; i++ {
+		// Recorremos las áreas parciales para ver si están calculadas y si no, nos quedamos ahí
+		if areasParciales[i] == -1.0 {
+			i--
+		} else {
+			areaTotal += areasParciales[i]
+		}
+	}
+
+	areaTotal *= anchRect
+
+	fin := time.Since(inicio)
+	fmt.Printf("π = %f (%v)\n", areaTotal, fin)
 
 	os.Exit(0)
 }
