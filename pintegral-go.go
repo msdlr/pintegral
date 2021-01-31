@@ -15,9 +15,16 @@ func f(x float64) (y float64) {
 }
 
 // Tarea que cada goroutine tiene que realizar
-func calculaArea(nRutina int, nAreas uint32) {
-	fmt.Printf("Rutina %d: %d areas\n", nRutina+1, nAreas)
+func calculaArea(nRutina int, nAreas uint32, rectInicio uint32, ptr *float64) {
+	var devolver float64 = 0
 
+	for i := rectInicio; i <= rectInicio+nAreas; i++ {
+		devolver = devolver + f(anchRect*(float64(i)+0.5))
+	}
+
+	*ptr = devolver
+
+	fmt.Printf("Rutina %d, %f (%d áreas[%d-%d])\n", nRutina+1, devolver, nAreas, rectInicio, rectInicio+nAreas-1)
 }
 
 func main() {
@@ -37,7 +44,6 @@ func main() {
 
 	// Calcular anchura del intervalo
 	anchRect = 1.0 / float64(nRect)
-
 	// Array de áreas parciales
 	//var areasParciales [nRect]float64
 	areasParciales := make([]float64, nRect)
@@ -64,9 +70,12 @@ func main() {
 
 	fmt.Printf("Integral de %d rectángulos, anchura %f (%d goroutines)\n", nRect, anchRect, nRutinas)
 
+	var rectInicio uint32 = 0
 	// Llamada a cada tarea y creación de las goroutines
 	for i := 0; i < nRutinas; i++ {
-		calculaArea(i, tareas[i])
+		go calculaArea(i, tareas[i], rectInicio, &areasParciales[i])
+		// El siguiente tendrá su primer rectángulo
+		rectInicio += tareas[i]
 	}
 
 	os.Exit(0)
